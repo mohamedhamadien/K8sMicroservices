@@ -1,0 +1,36 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.code-workspace
+.idea/
+*.swp
+*.tmp
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+
+# ASP.NET Core
+appsettings.Development.json
+
+# OS / tooling noise
+Thumbs.db
+Desktop.ini
+.DS_Store
