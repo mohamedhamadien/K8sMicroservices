@@ -28,12 +28,13 @@ public class OrdersController : ControllerBase
     {
         return Ok(Orders);
     }
-    
+
     [HttpGet("product/{id}")]
     public async Task<IActionResult> GetProduct(int id)
     {
+        var productServiceUrl = Environment.GetEnvironmentVariable("PRODUCT_SERVICE_URL") ?? "http://product-service:8080";
         var response = await _httpClient.GetAsync(
-            $"http://product-service:8080/api/products/{id}");
+            $"{productServiceUrl}/api/products/{id}");
 
         if (!response.IsSuccessStatusCode)
             return StatusCode((int)response.StatusCode);
