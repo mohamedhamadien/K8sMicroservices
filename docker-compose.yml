@@ -1,0 +1,19 @@
+services:
+
+  product-service:
+    build:
+      context: ./src/ProductService
+      dockerfile: Dockerfile
+    container_name: product-service
+    ports:
+      - "8080:8080"
+
+  order-service:
+    build:
+      context: ./src/OrderService
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - product-service
