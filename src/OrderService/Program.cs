@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OrderService.Data;
+using OrderService.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<OrderDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("OrderDatabase")));
 
+builder.Services.AddSingleton<RabbitMqPublisher>();
 
 var app = builder.Build();
 

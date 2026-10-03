@@ -61,9 +61,12 @@ services:
       - "8081:8080"
 
     environment:
+
       ConnectionStrings__OrderDatabase: "Server=order-db,1433;Database=OrderDb;User Id=sa;Password=P@ssw0rd;TrustServerCertificate=True"
 
       PRODUCT_SERVICE_URL: http://product-service:8080
+
+      RabbitMQ__Host: "rabbitmq"
 
     depends_on:
       - product-service
@@ -79,3 +82,9 @@ services:
       timeout: 5s
       retries: 3
       start_period: 5s
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # application port
+      - "15672:15672" # management UI port

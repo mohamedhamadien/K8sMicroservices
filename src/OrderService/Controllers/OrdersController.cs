@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Data;
+using OrderService.Events;
+using OrderService.Messaging;
 using OrderService.Models;
 
 namespace OrderService.Controllers;
@@ -11,11 +13,13 @@ public class OrdersController : ControllerBase
 {
     private readonly OrderDbContext _context;
     private readonly HttpClient _httpClient;
+    private readonly RabbitMqPublisher _publisher;
 
-    public OrdersController(OrderDbContext context, IHttpClientFactory httpClientFactory)
+    public OrdersController(OrderDbContext context, IHttpClientFactory httpClientFactory, RabbitMqPublisher publisher)
     {
         _context = context;
         _httpClient = httpClientFactory.CreateClient();
+        _publisher = publisher;
     }
 
     [HttpGet]
@@ -33,6 +37,17 @@ public class OrdersController : ControllerBase
 
         await _context.SaveChangesAsync();
 
+
+        var orderCreatedEvent = new OrderCreatedEvent
+        {
+            OrderId = order.Id,
+            ProductId = order.ProductId,
+            Quantity = order.Quantity,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _publisher.PublishAsync(orderCreatedEvent,"order-created");
+            
         return CreatedAtAction(
             nameof(GetById),
             new { id = order.Id },
@@ -54,7 +69,7 @@ public class OrdersController : ControllerBase
     public async Task<IActionResult> GetProduct(int id)
     {
         var productServiceUrl = Environment.GetEnvironmentVariable( "PRODUCT_SERVICE_URL");
-        
+
         var response = await _httpClient.GetAsync(
             $"{productServiceUrl}/api/products/{id}");
 
