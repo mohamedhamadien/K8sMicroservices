@@ -1,6 +1,0 @@
-D:\K8sMicroservices\src\ProductService\obj\Debug\net8.0\rpswa.dswa.cache.json
-D:\K8sMicroservices\src\ProductService\obj\Debug\net8.0\ProductService.GeneratedMSBuildEditorConfig.editorconfig
-D:\K8sMicroservices\src\ProductService\obj\Debug\net8.0\ProductService.AssemblyInfoInputs.cache
-D:\K8sMicroservices\src\ProductService\obj\Debug\net8.0\ProductService.AssemblyInfo.cs
-D:\K8sMicroservices\src\ProductService\obj\Debug\net8.0\ProductService.csproj.CoreCompileInputs.cache
-D:\K8sMicroservices\src\ProductService\obj\Debug\net8.0\ProductService.MvcApplicationPartsAssemblyInfo.cache
