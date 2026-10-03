@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProductService.Data;
 using ProductService.Models;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,13 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("ProductDatabase")));
 
+var redisConnection =
+    builder.Configuration["Redis:ConnectionString"]
+    ?? "localhost:6379";
 
+builder.Services.AddSingleton<IConnectionMultiplexer>(
+    ConnectionMultiplexer.Connect(redisConnection));
+    
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

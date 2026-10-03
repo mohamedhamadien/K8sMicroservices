@@ -44,8 +44,12 @@ services:
       - "8080:8080"
     environment:
       ConnectionStrings__ProductDatabase: "Server=product-db;Database=ProductDb;User Id=sa;Password=P@ssw0rd;TrustServerCertificate=True"
+     
+      Redis__ConnectionString: "redis:6379"
     depends_on:
        product-db:
+          condition: service_healthy
+       redis:
           condition: service_healthy
 
   order-service:
@@ -64,3 +68,14 @@ services:
     depends_on:
       - product-service
       - order-db
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
