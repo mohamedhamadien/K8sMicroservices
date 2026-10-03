@@ -88,3 +88,18 @@ services:
     ports:
       - "5672:5672" # application port
       - "15672:15672" # management UI port
+
+  notification-service:
+    build:
+      context: ./src/NotificationService
+      dockerfile: Dockerfile
+
+    container_name: notification-service
+
+    environment:
+      RabbitMQ__Host: "rabbitmq"
+      RabbitMQ__UserName: "guest"
+      RabbitMQ__Password: "guest"
+
+    depends_on:
+      - rabbitmq
